@@ -1,0 +1,5 @@
+rest:
+    resource: "@RESTBundle/Controller/"
+    type:     annotation
+    prefix:   /
+    defaults: { _format: 'json' }
