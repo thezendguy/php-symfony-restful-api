@@ -7,6 +7,6 @@ namespace RESTBundle\Controller;
  * ensure that the implementing Controller can be protected from 'Accept' headers
  * that do not explicitly support 'application/json'.
  */
-interface RESTController
+interface AbstractRESTController
 {
 }

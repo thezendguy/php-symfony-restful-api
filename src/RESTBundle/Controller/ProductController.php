@@ -2,7 +2,7 @@
 
 namespace RESTBundle\Controller;
 
-use RESTBundle\Controller\RESTController;
+use RESTBundle\Controller\AbstractRESTController;
 use RESTBundle\Entity\Product;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 /**
  * @Route("/api/v1/")
  */
-class ProductController extends Controller implements RESTController
+class ProductController extends Controller implements AbstractRESTController
 {
     /**
      * @Route("products/", name="get_all_product")

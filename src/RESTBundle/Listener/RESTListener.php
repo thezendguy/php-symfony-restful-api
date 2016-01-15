@@ -5,6 +5,7 @@ namespace RESTBundle\Listener;
 use RESTBundle\Controller\RESTController;
 
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
 use Symfony\Component\HttpFoundation\Response;
 
 class RESTListener
@@ -16,7 +17,7 @@ class RESTListener
     public function onKernelController(FilterControllerEvent $event)
     {
         $controller = $event->getController();
-
+;
         /*
          * $controller passed can be either a class or a Closure.
          * This is not usual in Symfony but it may happen.
@@ -34,18 +35,8 @@ class RESTListener
             $request = $event->getRequest();
             $acceptsJsonContent = in_array('application/json', $request->getAcceptableContentTypes());
             if(!$acceptsJsonContent) {
-            
-                // Build a 406 status code header
-                $error = array('error' => 'Not acceptable');
-                $response = new Response(json_encode($error));
-                $response->setStatusCode(Response::HTTP_NOT_ACCEPTABLE);
-                
-                // Setting the response on the following object will force the response
-                // to be returned to the client immediately.
-                $event = new GetResponseForExceptionEvent();
-                $event->setResponse($response);
-                
-                // HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE THROW EXCEPTION HERE
+
+                throw new NotAcceptableHttpException();
             }
         }
     }
