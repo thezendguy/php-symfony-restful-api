@@ -25,6 +25,17 @@ class ExceptionListener
             $response = new Response(json_encode($error));
             $response->setStatusCode(Response::HTTP_NOT_ACCEPTABLE);
             $event->setResponse($response);
+            return;
+        }
+
+        // Limited internal server errors to headers only. This will capture
+        // invalid URLs.
+        if ($exception instanceof \Exception) {
+
+            $response = new Response();
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $event->setResponse($response);
+            return;
         }
     }
 }

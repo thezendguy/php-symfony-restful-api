@@ -66,15 +66,39 @@ class ProductController extends Controller implements AbstractRESTController
     }
     
     /**
+     * Post data must be in JSON format.
+     *
      * @Route("products/", name="post_product")
      * @Method({"POST"})
      */
-    public function postAction(Request $request)                                        // HERE What format is data received in?
+    public function postAction(Request $request)
     {
+        // Check to ensure the client has sent POST data.
+        $content = $request->getContent();
+        if(empty($content)) {
+            $response = new Response();
+            $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+            return $response;
+        }
+        
+        // Check to ensure the client has sent the data in JSON format.
+        $content = json_decode($content);
+        if(json_last_error() != JSON_ERROR_NONE) {
+            $response = new Response();
+            $response->setStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $response;
+        }
+        
+        if(empty($content->name) || empty($content->price) || empty($content->description)) {
+            $response = new Response();
+            $response->setStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $response;
+        }
+        
         $product = new Product();
-        $product->setName($request->request->get('name'));
-        $product->setPrice($request->request->get('price'));
-        $product->setDescription($request->request->get('description'));
+        $product->setName($content->name);
+        $product->setPrice($content->price);
+        $product->setDescription($content->description);
         
         $em = $this->getDoctrine()->getManager();
         $em->persist($product);
@@ -90,11 +114,35 @@ class ProductController extends Controller implements AbstractRESTController
     }
     
     /**
+     * PUT data must be in JSON format.
+     * 
      * @Route("products/{id}", name="put_product")
      * @Method({"PUT"})
      */
-    public function putAction(Request $request, $id)                                    // HERE What format is the data received in?
+    public function putAction(Request $request, $id)
     {
+        // Check to ensure the client has sent PUT data.
+        $content = $request->getContent();
+        if(empty($content)) {
+            $response = new Response();
+            $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+            return $response;
+        }
+        
+        // Check to ensure the client has sent the data in JSON format.
+        $content = json_decode($content);
+        if(json_last_error() != JSON_ERROR_NONE) {
+            $response = new Response();
+            $response->setStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $response;
+        }
+        
+        if(empty($content->name) && empty($content->price) && empty($content->description)) {
+            $response = new Response();
+            $response->setStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $response;
+        }
+        
         $product = $this
             ->getDoctrine()
             ->getRepository('RESTBundle:Product')
@@ -106,10 +154,16 @@ class ProductController extends Controller implements AbstractRESTController
             return $response;
         }
         
-        $product->setName($request->request->get('name'));
-        $product->setPrice($request->request->get('price'));
-        $product->setDescription($request->request->get('description'));
-
+        if(isset($content->name)) {
+            $product->setName($content->name);
+        }
+        if(isset($content->price)) {
+            $product->setPrice($content->price);
+        }
+        if(isset($content->description)) {
+            $product->setDescription($content->description);
+        }
+        
         $em = $this->getDoctrine()->getManager();
         $em->persist($product);
         $em->flush();

@@ -2,7 +2,7 @@
 
 namespace RESTBundle\Listener;
 
-use RESTBundle\Controller\RESTController;
+use RESTBundle\Controller\AbstractRESTController;
 
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
@@ -27,7 +27,7 @@ class RESTListener
             return;
         }
 
-        if ($controller[0] instanceof RESTController) {
+        if ($controller[0] instanceof AbstractRESTController) {
 
             // Check to ensure the client accepts a JSON response. Remember, if no 
             // Accept header field is present, then it is assumed that the client 
