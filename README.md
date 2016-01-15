@@ -45,23 +45,30 @@ To test using cURL
 -
 Experiment loading values:
 ```
-$ curl -X POST -H "accept: application/json" --data '{"name":"product1", "price":"299", "description":"desc1"}' http://localhost:8000/api/v1/products/  
-$ curl -X POST -H "accept: application/json" --data '{"name":"product2", "price":"399", "description":"desc2"}' http://localhost:8000/api/v1/products/  
-$ curl -X POST -H "accept: application/json" --data '{"name":"product3", "price":"499", "description":"desc3"}' http://localhost:8000/api/v1/products/  
+$ curl -X POST -H "accept: application/json" --data '{"name":"product1", "price":"299", "description":"desc1"}' http://localhost:80/api/v1/products/  
+$ curl -X POST -H "accept: application/json" --data '{"name":"product2", "price":"399", "description":"desc2"}' http://localhost:80/api/v1/products/  
+$ curl -X POST -H "accept: application/json" --data '{"name":"product3", "price":"499", "description":"desc3"}' http://localhost:80/api/v1/products/  
 ```
 
 Experiment getting values:
 ```
-$ curl -X GET -H "accept: application/json" http://localhost:8000/api/v1/products/  
-$ curl -X GET -H "accept: application/json" http://localhost:8000/api/v1/products/1  
+$ curl -X GET -H "accept: application/json" http://localhost:80/api/v1/products/  
+$ curl -X GET -H "accept: application/json" http://localhost:80/api/v1/products/1  
+$ curl -X GET -H "accept: application/json" http://localhost:80/api/v1/products/10  
+$ curl -X GET -H http://localhost:80/api/v1/products/2
 ```
 
 Experiment updating values:
 ```
-$ curl -X PUT -H "accept: application/json" --data '{"price":"1499"}' http://localhost:8000/api/v1/products/3  
+$ curl -X PUT -H "accept: application/json" --data '{"price":"1299"}' http://localhost:80/api/v1/products/1  
+$ curl -X PUT -H "accept: application/json" http://localhost:80/api/v1/products/2  
+$ curl -X PUT --data '{"price":"3499"}' http://localhost:80/api/v1/products/3  
+$ curl -X PUT -H "accept: application/json" --data '{"invalid":"data"}' http://localhost:80/api/v1/products/4
 ```
 
 Experiment deleting values:
 ```
-$ curl -X DELETE -H "accept: application/json" http://localhost:8000/api/v1/products/1  
+$ curl -X DELETE -H "accept: application/json" http://localhost:80/api/v1/products/1  
+$ curl -X DELETE http://localhost:80/api/v1/products/2  
+$ curl -X DELETE -H "accept: application/json" http://localhost:80/api/v1/products/10
 ```
