@@ -5,7 +5,7 @@ This application will connect to the local mysql server, create a new database
 called <strong><code>psra</code></strong> and a new table inside this called
 <strong><code>product</code></strong>, which will be used for testing purposes.
 
-The API is be hardened against both client- and server-side errors, and will always
+The API is hardened against both client- and server-side errors, and will always
 return the appropriate headers and response (if the latter is applicable).
 
 Dependencies
