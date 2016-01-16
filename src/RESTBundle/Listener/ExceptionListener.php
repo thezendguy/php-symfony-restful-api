@@ -14,6 +14,13 @@ class ExceptionListener
     {
     }
 
+    /**
+     * @Todo
+     * Currently this method will capture \Exceptions and treat them as 404
+     * errors, which for the most part is correct. However, internal server errors
+     * will also be treated this way. A better solution is necessary to determine
+     * if the exception is correctly a 404.
+     */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         $exception = $event->getException();
@@ -29,7 +36,7 @@ class ExceptionListener
         // This will capture invalid URLs.
         if ($exception instanceof \Exception) {
             $response = new Response();
-            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setStatusCode(Response::HTTP_NOT_FOUND);
             $event->setResponse($response);
             return;
         }

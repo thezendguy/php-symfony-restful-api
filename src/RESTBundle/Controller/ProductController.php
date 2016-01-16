@@ -74,7 +74,7 @@ class ProductController extends Controller implements AbstractRESTController
     public function postAction(Request $request)
     {   
         // Check to ensure the client has sent the data in JSON format.
-        $content = json_decode($content);
+        $content = json_decode($request->getContent());
         if(json_last_error() != JSON_ERROR_NONE) {
             // 422 The data cannot be processed.
             $response = new Response();
@@ -116,7 +116,7 @@ class ProductController extends Controller implements AbstractRESTController
     public function putAction(Request $request, $id)
     {   
         // Check to ensure the client has sent the data in JSON format.
-        $content = json_decode($content);
+        $content = json_decode($request->getContent());
         if(json_last_error() != JSON_ERROR_NONE) {
             // 422 the data is unprocessable.
             $response = new Response();
