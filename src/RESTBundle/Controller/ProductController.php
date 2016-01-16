@@ -72,26 +72,20 @@ class ProductController extends Controller implements AbstractRESTController
      * @Method({"POST"})
      */
     public function postAction(Request $request)
-    {
-        // Check to ensure the client has sent POST data.
-        $content = $request->getContent();
-        if(empty($content)) {
-            $response = new Response();
-            $response->setStatusCode(Response::HTTP_BAD_REQUEST);
-            return $response;
-        }
-        
+    {   
         // Check to ensure the client has sent the data in JSON format.
         $content = json_decode($content);
         if(json_last_error() != JSON_ERROR_NONE) {
+            // 422 The data cannot be processed.
             $response = new Response();
             $response->setStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
             return $response;
         }
         
         if(empty($content->name) || empty($content->price) || empty($content->description)) {
+            // 400 Bad request
             $response = new Response();
-            $response->setStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
+            $response->setStatusCode(Response::BAD_REQUEST);
             return $response;
         }
         
@@ -120,26 +114,20 @@ class ProductController extends Controller implements AbstractRESTController
      * @Method({"PUT"})
      */
     public function putAction(Request $request, $id)
-    {
-        // Check to ensure the client has sent PUT data.
-        $content = $request->getContent();
-        if(empty($content)) {
-            $response = new Response();
-            $response->setStatusCode(Response::HTTP_BAD_REQUEST);
-            return $response;
-        }
-        
+    {   
         // Check to ensure the client has sent the data in JSON format.
         $content = json_decode($content);
         if(json_last_error() != JSON_ERROR_NONE) {
+            // 422 the data is unprocessable.
             $response = new Response();
             $response->setStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
             return $response;
         }
         
         if(empty($content->name) && empty($content->price) && empty($content->description)) {
+            // 400 Bad request
             $response = new Response();
-            $response->setStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
+            $response->setStatusCode(Response::BAD_REQUEST);
             return $response;
         }
         

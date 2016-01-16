@@ -20,18 +20,14 @@ class ExceptionListener
 
         // Listen for 406 http exceptions.
         if ($exception instanceof NotAcceptableHttpException) {
-
-            $error = array('error' => 'Not acceptable');
-            $response = new Response(json_encode($error));
+            $response = new Response();
             $response->setStatusCode(Response::HTTP_NOT_ACCEPTABLE);
             $event->setResponse($response);
             return;
         }
 
-        // Limited internal server errors to headers only. This will capture
-        // invalid URLs.
+        // This will capture invalid URLs.
         if ($exception instanceof \Exception) {
-
             $response = new Response();
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
             $event->setResponse($response);
